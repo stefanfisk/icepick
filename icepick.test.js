@@ -132,6 +132,33 @@ describe("icepick", function () {
     });
   });
 
+  describe("pop", function () {
+    it("should work with arrays", function () {
+      var a = i.freeze([1, 2, 3]),
+        result = i.pop(a);
+
+      expect(result).to.eql([1, 2]);
+
+      result = i.pop(result);
+      expect(result).to.eql([1]);
+    });
+
+    it("should return a frozen copy", function () {
+      var a = i.freeze([1, 2, 3]),
+        result = i.pop(a);
+
+      expect(result).to.not.equal(a);
+      expect(Object.isFrozen(result)).to.be.ok();
+    });
+
+    it("should not modify child objects", function () {
+      var o = i.freeze([1, [2, 3], 4]),
+        result = i.pop(o);
+
+      expect(result[1]).to.equal(o[1]);
+    });
+  });
+
   describe("assocIn", function () {
     it("should work recursively", function () {
       var o = i.freeze({a: 1, b: 2, c: {a: 4}}),

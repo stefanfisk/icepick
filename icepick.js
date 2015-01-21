@@ -132,6 +132,19 @@ exports.del = function del(obj, key) {
 };
 
 /**
+ * pops the last value of an array
+ * @param  {Array} arr
+ * @return {Array} new array with modifications
+ */
+exports.pop = function pop(arr) {
+  var newArr = clone(arr);
+
+  newArr.pop();
+
+  return Object.freeze(newArr);
+};
+
+/**
  * set a value deep in a hierarchical structure
  * @param  {Object|Array} coll
  * @param  {Array}        path    A list of keys to traverse
