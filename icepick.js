@@ -97,6 +97,20 @@ exports.assoc = function assoc(coll, key, value) {
 };
 
 /**
+ * delete a value on an object
+ * @param  {Object}  obj
+ * @param  {String} key   Key or index
+ * @return {Object}        new object hierarchy with modifications
+ */
+exports.del = function del(obj, key) {
+  var newObj = clone(obj);
+
+  delete newObj[key];
+
+  return Object.freeze(newObj);
+};
+
+/**
  * set a value deep in a hierarchical structure
  * @param  {Object|Array} coll
  * @param  {Array}        path    A list of keys to traverse

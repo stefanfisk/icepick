@@ -78,6 +78,33 @@ describe("icepick", function () {
     });
   });
 
+  describe("del", function () {
+    it("should work with objects", function () {
+      var o = i.freeze({a: 1, b: 2, c: 3}),
+        result = i.del(o, "b");
+
+      expect(result).to.eql({a: 1, c: 3});
+
+      result = i.del(o, "d");
+      expect(result).to.eql({a: 1, b: 2, c: 3});
+    });
+
+    it("should return a frozen copy", function () {
+      var o = i.freeze({a: 1, b: 2, c: 3}),
+        result = i.del(o, "b");
+
+      expect(result).to.not.equal(o);
+      expect(Object.isFrozen(result)).to.be.ok();
+    });
+
+    it("should not modify child objects", function () {
+      var o = i.freeze({a: 1, b: 2, c: {a: 4}}),
+        result = i.del(o, "b");
+
+      expect(result.c).to.equal(o.c);
+    });
+  });
+
   describe("assocIn", function () {
     it("should work recursively", function () {
       var o = i.freeze({a: 1, b: 2, c: {a: 4}}),
