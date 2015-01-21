@@ -97,6 +97,27 @@ exports.assoc = function assoc(coll, key, value) {
 };
 
 /**
+ * assign values on an object
+ * @param  {Object} obj the original object
+ * @param  {Object} obj2 the object whose properties to assign to the original
+ * @return {Object} new object hierarchy with modifications
+ */
+exports.assign = function assign(obj, obj2) {
+  var newObj = clone(obj);
+
+  Object.keys(obj2).forEach(function (key) {
+    var value = obj2[key];
+    if (weCareAbout(value) && !Object.isFrozen(value)) {
+      value = baseFreeze(value, []);
+    }
+
+    newObj[key] = value;
+  });
+
+  return Object.freeze(newObj);
+};
+
+/**
  * delete a value on an object
  * @param  {Object}  obj
  * @param  {String} key   Key or index

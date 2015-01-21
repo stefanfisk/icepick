@@ -78,6 +78,33 @@ describe("icepick", function () {
     });
   });
 
+  describe("assign", function () {
+    it("should work with objects", function () {
+      var o = i.freeze({a: 1, b: 2, c: 3}),
+        result = i.assign(o, {"b": 3, "c": 4});
+
+      expect(result).to.eql({a: 1, b: 3, c: 4});
+
+      result = i.assign(o, {"d": 4});
+      expect(result).to.eql({a: 1, b: 2, c: 3, d: 4});
+    });
+
+    it("should return a frozen copy", function () {
+      var o = i.freeze({a: 1, b: 2, c: 3}),
+        result = i.assoc(o, {"b": 4});
+
+      expect(result).to.not.equal(o);
+      expect(Object.isFrozen(result)).to.be.ok();
+    });
+
+    it("should not modify child objects", function () {
+      var o = i.freeze({a: 1, b: 2, c: {a: 4}}),
+        result = i.assoc(o, {"b": 4});
+
+      expect(result.c).to.equal(o.c);
+    });
+  });
+
   describe("del", function () {
     it("should work with objects", function () {
       var o = i.freeze({a: 1, b: 2, c: 3}),
